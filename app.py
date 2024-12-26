@@ -88,6 +88,43 @@ def index():
             conn.close()
 
 
+@app.route('/trip/<int:trip_id>', methods=['GET'])
+@login_required
+def trip_details(trip_id):
+    user_id = session.get('user_id')  # Ensure user is authenticated
+    conn = get_db_connection()
+    if conn is None:
+        return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Unknown")
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+
+        # Fetch trip_name based on trip_id
+        trip_name_query = """
+            SELECT trip_name 
+            FROM trips
+            WHERE trip_id = %s AND user_id = %s
+        """
+        cursor.execute(trip_name_query, (trip_id, user_id))
+        trip_row = cursor.fetchone()
+        trip_name = trip_row['trip_name'] if trip_row else "Unknown"
+
+        # Fetch expenses for the selected trip
+        expenses_query = """
+            SELECT expense_id, description, amount, method, category, location, created_at
+            FROM expenses
+            WHERE trip_id = %s AND user_id = %s
+        """
+        cursor.execute(expenses_query, (trip_id, user_id))
+        expenses = cursor.fetchall()
+
+        return render_template("expense.html", expenses=expenses, trip_id=trip_id, trip_name=trip_name)
+    except mysql.connector.Error as e:
+        return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Error")
+    finally:
+        cursor.close()
+        conn.close()
+
 
 
 # Route: Signup

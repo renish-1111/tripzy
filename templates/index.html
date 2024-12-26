@@ -118,11 +118,11 @@
                         <td class="border border-gray-300 px-4 py-2 text center">{{loop.index}}</td>
                         <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.trip_name }}</td>
                         <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at.strftime('%d-%m-%Y') }}</td>
-                        <td class="border border-gray-300 px-4 py-2"><button 
-                            type="submit" 
-                            class="w-full bg-green-500 text-white font-medium px-4 py-2 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
-                            Details
-                        </button></td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <form action="{{ url_for('trip_details', trip_id=trip.trip_id) }}" method="GET">
+                                <button type="submit" class="bg-green-500 w-full text-white px-4 py-2 rounded">Details</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
