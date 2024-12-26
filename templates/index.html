@@ -17,7 +17,7 @@
             <!-- Left Section: Logo -->
             <div class="flex items-center">
                 <img src="/static/airplane.png" alt="Airplane Icon" class="h-8 mr-3">
-                <span class="text-white text-lg font-bold">Travel Expense Tracker</span>
+                <span class="text-white text-lg font-bold"><a href="/">Travel Expense Tracker</a></span>
             </div>
             <!-- Right Section: Menu -->
             <div class="hidden sm:flex space-x-6">
@@ -108,19 +108,16 @@
                     <tr class="bg-gray-100">
                         <th class="border border-gray-300 px-4 py-2">SNO</th>
                         <th class="border border-gray-300 px-4 py-2">Trip Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Destination</th>
                         <th class="border border-gray-300 px-4 py-2">Created At</th>
                         <th class="border border-gray-300 px-4 py-2">Full Details</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     {% for trip in trips %}
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">{{loop.index}}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ trip.trip_name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ trip.destination }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ trip.created_at.strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text center">{{loop.index}}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.trip_name }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at.strftime('%d-%m-%Y') }}</td>
                         <td class="border border-gray-300 px-4 py-2"><button 
                             type="submit" 
                             class="w-full bg-green-500 text-white font-medium px-4 py-2 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
