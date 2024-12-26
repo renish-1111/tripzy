@@ -1,0 +1,62 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Flask instance folder
+instance/
+
+# Flask cache files
+*.pyo
+*.pyd
+*.pdb
+
+# Flask project files
+*.sqlite3
+*.db
+
+# VSCode settings (optional, if you use VSCode)
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Python virtual environment
+venv/
+.env/
+.venv/
+
+# Logs
+logs/
+*.log
+
+# Ignore any compiled or cache files
+*.pyc
+*.pyo
+
+# Unit test / coverage results
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# MySQL configuration file (if applicable)
+mysql.cnf
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Static files (optional if you're storing generated files only)
+static/
+media/
+
+# IDE files
+.idea/
+.env
