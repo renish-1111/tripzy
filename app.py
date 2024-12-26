@@ -135,7 +135,7 @@ def trip_details(trip_id):
 
 @app.route('/expense/<int:trip_id>', methods=['GET'])
 @login_required
-def cost_details(trip_id):
+def expense(trip_id):
     user_id = session.get('user_id')  # Ensure user is authenticated
     conn = get_db_connection()
     
@@ -180,7 +180,57 @@ def cost_details(trip_id):
         cursor.close()
         conn.close()
 
+@app.route('/addexpense/<int:trip_id>', methods=['GET', 'POST'])
+def addexpense(trip_id):
+    if request.method == 'GET':
+        return render_template("expense_create.html")
 
+    if request.method == 'POST':
+        user_id = session.get('user_id')  # Ensure the user is authenticated
+        if not user_id:
+            return jsonify({"error": "User not authenticated"}), 403
+
+        # Get form data
+        category = request.form.get('category')
+        amount = request.form.get('amount')
+        description = request.form.get('description', '')
+        location = request.form.get('location', '')
+        method = request.form.get('method')
+
+        # Validate required fields
+        if not category or not amount or not method:
+            return jsonify({"error": "Category, amount, and payment method are required"}), 400
+
+        # Validate numeric fields
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                return jsonify({"error": "Amount must be a positive number"}), 400
+        except ValueError:
+            return jsonify({"error": "Invalid amount format"}), 400
+
+        # Database connection
+        conn = get_db_connection()
+        if conn is None:
+            return jsonify({"error": "Database connection failed"}), 500
+
+        try:
+            cursor = conn.cursor()
+            query = """
+                INSERT INTO expenses (user_id, trip_id, category, amount, description, location, method) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (user_id, trip_id, category, amount, description, location, method))
+            conn.commit()
+            return redirect(url_for('expense', trip_id=trip_id))
+        except mysql.connector.Error as e:
+            conn.rollback()  # Rollback in case of error
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+
+        
 
 # Route: Signup
 @app.route('/signup', methods=['GET', 'POST'])
