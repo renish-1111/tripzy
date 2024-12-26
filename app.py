@@ -2,16 +2,20 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from passlib.hash import bcrypt
 import mysql.connector
 from functools import wraps
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a secure random key in production
 
 # Database Configuration
+load_dotenv()
+
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'sanket1122005',
-    'database': 'tripzy'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
 }
 
 def get_db_connection():

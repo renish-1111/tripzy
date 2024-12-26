@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripzy</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+
+<body>
+
+    <body class="bg-gray-100">
+        <!-- Navbar -->
+        <nav class="bg-blue-600">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Left Section: Logo -->
+                    <div class="flex items-center">
+                        <img src="/static/airplane.png" alt="Airplane Icon" class="h-8 mr-3">
+                        <span class="text-white text-lg font-bold"><a href="/">Travel Expense Tracker</a></span>
+                    </div>
+                    <!-- Right Section: Menu -->
+                    <div class="hidden sm:flex space-x-6">
+                        <a href="/"
+                            class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/"
+                            class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact
+                            Us</a>
+                        <a href="#"
+                            class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
+                            Policy</a>
+                        <a href="{{ url_for('logout') }}"
+                            class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log
+                            Out</a>
+                    </div>
+                    <!-- Mobile Menu Button -->
+                    <div class="sm:hidden flex items-center">
+                        <button id="mobile-menu-button"
+                            class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Menu Icon -->
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="sm:hidden hidden">
+                <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
+                    <a href="/"
+                        class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                    <a href="/"
+                        class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
+                        Us</a>
+                    <a href="#"
+                        class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
+                        Policy</a>
+                    <a href="{{ url_for('logout') }}"
+                        class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log
+                        Out</a>
+                </div>
+            </div>
+        </nav>
+        
+       <form action="" method="post">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white shadow-md rounded-lg p-4 border border-gray-300">
+                    <h2 class="font-bold text-lg mb-2">Add Expense</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                            <select id="category" name="category"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="food">Food</option>
+                                <option value="transport">Transport</option>
+                                <option value="accommodation">Accommodation</option>
+                                <option value="miscellaneous">Miscellaneous</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                            <input type="number" name="amount" id="amount"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="description" name="description"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></textarea>
+                        </div>
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <input type="text" name="location" id="location"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="method" class="block text-sm font-medium text-gray-700">Payment Method</label>
+                            <select id="method" name="method"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="cash">Cash</option>
+                                <option value="card">Card</option>
+                                <option value="upi">UPI</option>
+                                <option value="netbanking">Netbanking</option>
+                            </select>
+                        </div>
+                        <!-- location -->
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <input type="text" name="location" id="location"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="mt-1 block w-full bg-blue-600 text-white font-semibold text-sm py-2 rounded-md hover:bg-blue-700">Add
+                                Expense</button>
+                        </div>
+                    
+       </form>
+
+       
+    </body>
+</body>
+
+</html>
