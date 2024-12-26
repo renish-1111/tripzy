@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripzy</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Left Section: Logo -->
+                <div class="flex items-center">
+                    <img src="/static/airplane.png" alt="Airplane Icon" class="h-8 mr-3">
+                    <span class="text-white text-lg font-bold"><a href="/">Travel Expense Tracker</a></span>
+                </div>
+                <!-- Right Section: Menu -->
+                <div class="hidden sm:flex space-x-6">
+                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
+                    <a href="#" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy Policy</a>
+                    <a href="{{ url_for('logout') }}" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="sm:hidden flex items-center">
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu Icon -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="sm:hidden hidden">
+            <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
+                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact Us</a>
+                <a href="#" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy Policy</a>
+                <a href="{{ url_for('logout') }}" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Expense Form -->
+    <div class="max-w-4xl mx-auto mt-8 bg-white rounded-lg shadow-lg border border-gray-300">
+        <form action="" method="post" class="p-6 space-y-6">
+            <h2 class="font-bold text-xl text-gray-800 border-b pb-4">Add Expense</h2>
+
+            <div class="border border-gray-300 p-4 rounded-md">
+                <h3 class="font-medium text-gray-700 mb-4">Expense Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Category -->
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700">Cost Category</label>
+                        <select id="category" name="category"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="General">General</option>
+                            <option value="Food">Food</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Night Stay">Night Stay</option>
+                        </select>
+                    </div>
+
+                    <!-- Amount -->
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                        <input type="number" name="amount" id="amount"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            placeholder="Enter amount">
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-300 p-4 rounded-md">
+                <h3 class="font-medium text-gray-700 mb-4">Additional Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Description -->
+                    <div class="sm:col-span-2">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" name="description"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            rows="3" placeholder="Enter description"></textarea>
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" name="location" id="location"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            placeholder="Enter location">
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div>
+                        <label for="method" class="block text-sm font-medium text-gray-700">Payment Method</label>
+                        <select id="method" name="method"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="upi">UPI</option>
+                            <option value="netbanking">Netbanking</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t pt-4">
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white font-semibold text-sm py-2 rounded-md hover:bg-blue-700">
+                    Add Expense
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <Script>
+         // Tab navigation
+         document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuButton.addEventListener('click', () => {
+                // Toggle the hidden class on the mobile menu
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </Script>
+
+</body>
+
+</html>
