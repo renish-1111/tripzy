@@ -117,13 +117,12 @@ def trip_details(trip_id):
 
         # Fetch expenses for the selected trip
         expenses_query = """
-            SELECT expense_id, description, amount, method, category, location, created_at
+            SELECT *
             FROM expenses
             WHERE trip_id = %s AND user_id = %s
         """
         cursor.execute(expenses_query, (trip_id, user_id))
         expenses = cursor.fetchall()
-
         return render_template("expense.html", expenses=expenses, trip_id=trip_id, trip_name=trip_name)
     except mysql.connector.Error as e:
         return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Error")
@@ -231,7 +230,35 @@ def addexpense(trip_id):
             cursor.close()
             conn.close()
 
+@app.route('/deleteexpense/<int:expense_id>', methods=['POST'])
+def delete_expense(expense_id):
+
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+
+    try:
+        cursor = conn.cursor()
+        # Select the trip_id before deleting the expense
+        query = "SELECT trip_id FROM expenses WHERE expense_id = %s"
+        cursor.execute(query, (expense_id,))
+        trip_id = cursor.fetchone()
         
+        if trip_id is None:
+            return jsonify({"error": "Expense not found."}), 404
+        
+        # Delete the expense
+        query = "DELETE FROM expenses WHERE expense_id = %s"
+        cursor.execute(query, (expense_id,))
+        conn.commit()
+        
+        return redirect(url_for('trip_details', trip_id=trip_id[0]))
+    except mysql.connector.Error as e:
+        return jsonify({"error": f"Database error: {e}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+      
 
 # Route: Signup
 @app.route('/signup', methods=['GET', 'POST'])
