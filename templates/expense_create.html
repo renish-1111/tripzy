@@ -21,18 +21,26 @@
                 </div>
                 <!-- Right Section: Menu -->
                 <div class="hidden sm:flex space-x-6">
-                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
-                    <a href="#" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy Policy</a>
-                    <a href="{{ url_for('logout') }}" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
+                    <a href="/"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="/"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
+                    <a href="#"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
+                        Policy</a>
+                    <a href="{{ url_for('logout') }}"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
                 </div>
                 <!-- Mobile Menu Button -->
                 <div class="sm:hidden flex items-center">
-                    <button id="mobile-menu-button" class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                    <button id="mobile-menu-button"
+                        class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
                         <span class="sr-only">Open main menu</span>
                         <!-- Menu Icon -->
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
@@ -41,10 +49,17 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="sm:hidden hidden">
             <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
-                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact Us</a>
-                <a href="#" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy Policy</a>
-                <a href="{{ url_for('logout') }}" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log Out</a>
+                <a href="/"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="/"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
+                    Us</a>
+                <a href="#"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
+                    Policy</a>
+                <a href="{{ url_for('logout') }}"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log
+                    Out</a>
             </div>
         </div>
     </nav>
@@ -112,9 +127,24 @@
                 </div>
             </div>
 
+            {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+                {% set color_class = 
+                    "text-red-500" if category == "error" else 
+                    "text-green-500" if category == "success" else 
+                    "text-blue-500" %}
+                <li class="{{ color_class }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
             <div class="border-t pt-4">
                 <button type="submit"
-                    class="w-full bg-blue-600 text-white font-semibold text-sm py-2 rounded-md hover:bg-blue-700">
+                    class="w-full bg-blue-600 text-white font-semibold text-sm py-3 rounded-md hover:bg-blue-700">
                     Add Expense
                 </button>
             </div>
@@ -122,8 +152,8 @@
     </div>
 
     <Script>
-         // Tab navigation
-         document.addEventListener('DOMContentLoaded', () => {
+        // Tab navigation
+        document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 

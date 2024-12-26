@@ -52,7 +52,7 @@ def index():
         try:
             cursor = conn.cursor(dictionary=True)
             query = """
-                SELECT trip_id, trip_name, destination, created_at
+                SELECT *
                 FROM trips 
                 WHERE user_id = %s
             """
@@ -117,7 +117,7 @@ def trip_details(trip_id):
 
         # Fetch expenses for the selected trip
         expenses_query = """
-            SELECT expense_id, description, amount, method, category, location, created_at
+            SELECT *
             FROM expenses
             WHERE trip_id = %s AND user_id = %s
         """
@@ -130,8 +130,6 @@ def trip_details(trip_id):
     finally:
         cursor.close()
         conn.close()
-
-
 
 @app.route('/expense/<int:trip_id>', methods=['GET'])
 @login_required
@@ -194,13 +192,17 @@ def addexpense(trip_id):
         # Get form data
         category = request.form.get('category')
         amount = request.form.get('amount')
-        description = request.form.get('description', '')
-        location = request.form.get('location', '')
+        description = request.form.get('description', '') or "none"
+        location = request.form.get('location', '') or "none"
         method = request.form.get('method')
 
         # Validate required fields
         if not category or not amount or not method:
-            return jsonify({"error": "Category, amount, and payment method are required"}), 400
+            flash("Category, amount, and payment method are required.", "error")
+            return redirect(request.url)
+        if amount is None or float(amount) <= 0:
+            flash("Amount must be greater than zero.", "error")
+            return redirect(request.url)
 
         # Validate numeric fields
         try:
@@ -231,7 +233,29 @@ def addexpense(trip_id):
             cursor.close()
             conn.close()
 
-        
+@app.route('/deleteexpense/<int:expense_id>', methods=['POST'])
+@login_required
+def deleteexpense(expense_id):
+    user_id = session.get('user_id')
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed"}), 500
+    
+    try:
+        cursor = conn.cursor()
+        query = """
+            DELETE FROM expenses
+            WHERE expense_id = %s AND user_id = %s
+        """
+        cursor.execute(query, (expense_id, user_id))
+        conn.commit()
+        return jsonify({"message": "Expense deleted successfully."}), 200
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return jsonify({"error": f"Database error: {e}"}), 500
+    finally:
+        cursor.close()
+        conn.close()   
 
 # Route: Signup
 @app.route('/signup', methods=['GET', 'POST'])

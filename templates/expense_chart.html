@@ -80,28 +80,28 @@
                 <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 border-b border-gray-300">1</td>
                     <td class="px-4 py-2 border-b border-gray-300">General Cost</td>
-                    <td id="general_cost" class="px-4 py-2 border-b border-gray-300">{{ cost.general_amount }}</td>
+                    <td id="general_cost" class="px-4 py-2 border-b border-gray-300"> ₹{{ cost.general_amount }}</td>
                 </tr>
                 <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 border-b border-gray-300">2</td>
                     <td class="px-4 py-2 border-b border-gray-300">Food Cost</td>
-                    <td id="food_cost" class="px-4 py-2 border-b border-gray-300">{{ cost.food_amount }}</td>
+                    <td id="food_cost" class="px-4 py-2 border-b border-gray-300">₹{{ cost.food_amount }}</td>
                 </tr>
                 <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 border-b border-gray-300">3</td>
                     <td class="px-4 py-2 border-b border-gray-300">Travel Cost</td>
-                    <td id="travel_cost" class="px-4 py-2 border-b border-gray-300">{{ cost.travel_amount }}</td>
+                    <td id="travel_cost" class="px-4 py-2 border-b border-gray-300">₹{{ cost.travel_amount }}</td>
                 </tr>
                 <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 border-b border-gray-900">4</td>
                     <td class="px-4 py-2 border-b border-gray-900">Night Stay Cost</td>
-                    <td id="night_stay_cost" class="px-4 py-2 border-b border-gray-900">{{ cost.night_stay_amount }}
+                    <td id="night_stay_cost" class="px-4 py-2 border-b border-gray-900">₹{{ cost.night_stay_amount }}
                     </td>
                 </tr>
                 <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 border-b border-gray-900"></td>
                     <td class="px-4 py-2 border-b border-gray-900"></td>
-                    <td class="px-4 py-2 border-t border-gray-300">{{ cost.total_amount }}</td>
+                    <td class="px-4 py-2 border-t border-gray-300">₹{{ cost.total_amount }}</td>
                 </tr>
             </tbody>
         </table>
@@ -156,7 +156,7 @@
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                return tooltipItem.label + ': $' + tooltipItem.raw.toFixed(2);
+                                return tooltipItem.label + ':  ₹' + tooltipItem.raw.toFixed(2);
                             }
                         }
                     }
