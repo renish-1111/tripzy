@@ -112,7 +112,7 @@
             <a href="{{ url_for('addexpense', trip_id=trip_id) }}"
                 class="bg-blue-600  mx-2  my-4 border-2 border-black px-4 py-2 text-white font-bold rounded-xl text-center">Add
                 Expenses</a>
-            <a href=""
+            <a href="{{ url_for('trip_details', trip_id=trip_id) }}"
                 class="bg-green-600  mx-2 my-4 border-2 border-black px-4 py-2 text-white font-bold rounded-xl text-center">Show
                 Detailed Expenses</a>
         </div>

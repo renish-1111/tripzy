@@ -181,6 +181,7 @@ def expense(trip_id):
         conn.close()
 
 @app.route('/addexpense/<int:trip_id>', methods=['GET', 'POST'])
+@login_required
 def addexpense(trip_id):
     if request.method == 'GET':
         return render_template("expense_create.html")
