@@ -127,6 +127,55 @@ def trip_details(trip_id):
 
 
 
+@app.route('/expense/<int:trip_id>', methods=['GET'])
+@login_required
+def cost_details(trip_id):
+    user_id = session.get('user_id')  # Ensure user is authenticated
+    conn = get_db_connection()
+    
+    if conn is None:
+        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Unknown")
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+
+        # Fetch trip_name based on trip_id
+        trip_name_query = """
+            SELECT trip_name 
+            FROM trips
+            WHERE trip_id = %s AND user_id = %s
+        """
+        cursor.execute(trip_name_query, (trip_id, user_id))
+        trip_row = cursor.fetchone()
+        trip_name = trip_row['trip_name'] if trip_row else "Unknown"
+
+        # Fetch the total sum of 'General' category expenses for the selected trip
+        expenses_query = """
+            SELECT 
+                SUM(CASE WHEN category = 'General' THEN amount ELSE 0 END) AS general_amount,
+                SUM(CASE WHEN category = 'Food' THEN amount ELSE 0 END) AS food_amount,
+                SUM(CASE WHEN category = 'Travel' THEN amount ELSE 0 END) AS travel_amount,
+                SUM(CASE WHEN category = 'Night Stay' THEN amount ELSE 0 END) AS night_stay_amount,
+                SUM(amount) AS total_amount
+            FROM expenses
+            WHERE trip_id = %s
+            AND user_id = %s
+
+        """
+        cursor.execute(expenses_query, (trip_id, user_id))
+        cost = cursor.fetchone()  # Since it's a SUM query, use fetchone() to get a single row
+
+        return render_template("expense_chart.html", cost=cost, trip_id=trip_id, trip_name=trip_name)
+
+    except mysql.connector.Error as e:
+        # Handle errors and render with an error message
+        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Error")
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
 # Route: Signup
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
