@@ -14,10 +14,11 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY')  # Replace with a secure random k
 # Database Configuration
 
 db_config = {
-    'host': os.getenv('DB_HOST'),
-    'user': os.getenv('DB_USER'),
-    'password': os.getenv('DB_PASSWORD'),
-    'database': os.getenv('DB_NAME')
+    'host': os.getenv('MYSQL_ADDON_HOST'),
+    'user': os.getenv('MYSQL_ADDON_USER'),
+    'password': os.getenv('MYSQL_ADDON_PASSWORD'),
+    'database': os.getenv('MYSQL_ADDON_DB'),
+     
 }
 
 def get_db_connection():
@@ -123,6 +124,7 @@ def trip_details(trip_id):
         """
         cursor.execute(expenses_query, (trip_id, user_id))
         expenses = cursor.fetchall()
+
         return render_template("expense.html", expenses=expenses, trip_id=trip_id, trip_name=trip_name)
     except mysql.connector.Error as e:
         return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Error")
@@ -232,8 +234,6 @@ def addexpense(trip_id):
             cursor.close()
             conn.close()
 
-<<<<<<< HEAD
-=======
 
 @app.route('/updateexpense/<int:expense_id>', methods=['GET', 'POST'])
 @login_required
@@ -303,7 +303,6 @@ def update_expense(expense_id):
             cursor.close()
             conn.close()
 
->>>>>>> main
 @app.route('/deleteexpense/<int:expense_id>', methods=['POST'])
 def delete_expense(expense_id):
 
