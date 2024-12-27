@@ -52,7 +52,7 @@ def index():
         try:
             cursor = conn.cursor(dictionary=True)
             query = """
-                SELECT trip_id, trip_name, destination, created_at
+                SELECT *
                 FROM trips 
                 WHERE user_id = %s
             """
@@ -130,8 +130,6 @@ def trip_details(trip_id):
         cursor.close()
         conn.close()
 
-
-
 @app.route('/expense/<int:trip_id>', methods=['GET'])
 @login_required
 def expense(trip_id):
@@ -193,13 +191,17 @@ def addexpense(trip_id):
         # Get form data
         category = request.form.get('category')
         amount = request.form.get('amount')
-        description = request.form.get('description', '')
-        location = request.form.get('location', '')
+        description = request.form.get('description', '') or "none"
+        location = request.form.get('location', '') or "none"
         method = request.form.get('method')
 
         # Validate required fields
         if not category or not amount or not method:
-            return jsonify({"error": "Category, amount, and payment method are required"}), 400
+            flash("Amount is required.", "error")
+            return redirect(request.url)
+        if amount is None or float(amount) <= 0:
+            flash("Amount must be greater than zero.", "error")
+            return redirect(request.url)
 
         # Validate numeric fields
         try:
@@ -230,6 +232,78 @@ def addexpense(trip_id):
             cursor.close()
             conn.close()
 
+<<<<<<< HEAD
+=======
+
+@app.route('/updateexpense/<int:expense_id>', methods=['GET', 'POST'])
+@login_required
+def update_expense(expense_id):
+    if request.method == 'GET':
+        return render_template("expense_edit.html")
+
+    if request.method == 'POST':
+        user_id = session.get('user_id')  # Ensure the user is authenticated
+        if not user_id:
+            return jsonify({"error": "User not authenticated"}), 403
+
+        # Get form data
+        category = request.form.get('category')
+        amount = request.form.get('amount')
+        description = request.form.get('description', '') or "none"
+        location = request.form.get('location', '') or "none"
+        method = request.form.get('method')
+
+        # Validate required fields
+        if not category or not amount or not method:
+            flash("Amount is required.", "error")
+            return redirect(request.url)
+        if amount is None or float(amount) <= 0:
+            flash("Amount must be greater than zero.", "error")
+            return redirect(request.url)
+
+        # Validate numeric fields
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                return jsonify({"error": "Amount must be a positive number"}), 400
+        except ValueError:
+            return jsonify({"error": "Invalid amount format"}), 400
+
+        # Database connection
+        conn = get_db_connection()
+        if conn is None:
+            return jsonify({"error": "Database connection failed"}), 500
+
+        try:
+            cursor = conn.cursor()
+            query = """
+                 UPDATE expenses
+                SET category = %s,
+                    amount = %s,
+                    description = %s,
+                    location = %s,
+                    method = %s
+                WHERE expense_id = %s AND user_id = %s;
+
+            """
+            cursor.execute(query, (category, amount, description, location, method, expense_id,user_id))
+            query = """
+            SELECT trip_id
+            FROM expenses
+            WHERE expense_id = %s;
+    """
+            cursor.execute(query, (expense_id,))
+            trip_id = cursor.fetchone() 
+            conn.commit()
+            return redirect(url_for('trip_details', trip_id=trip_id[0]))
+        except mysql.connector.Error as e:
+            conn.rollback()  # Rollback in case of error
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+
+>>>>>>> main
 @app.route('/deleteexpense/<int:expense_id>', methods=['POST'])
 def delete_expense(expense_id):
 
@@ -317,7 +391,6 @@ def login():
             if bcrypt.verify(password, user['password']):
                 session['user_id'] = user['user_id']
                 session['username'] = user['username']
-                flash('Logged in successfully!', 'success')
                 return redirect(url_for('index'))
             else:
                 flash('Incorrect password. Please try again.', 'danger')
@@ -333,9 +406,13 @@ def login():
 @login_required
 def logout():
     session.clear()
-    flash("Logged out successfully.", 'success')
     return redirect(url_for('login'))
 
+
+@app.route('/privacy')
+@login_required
+def privacy():
+    return render_template('privacy.html')
 
 @app.errorhandler(415)
 def unsupported_media_type(e):
