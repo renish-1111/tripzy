@@ -389,7 +389,6 @@ def login():
             if bcrypt.verify(password, user['password']):
                 session['user_id'] = user['user_id']
                 session['username'] = user['username']
-                flash('Logged in successfully!', 'success')
                 return redirect(url_for('index'))
             else:
                 flash('Incorrect password. Please try again.', 'danger')
@@ -405,9 +404,13 @@ def login():
 @login_required
 def logout():
     session.clear()
-    flash("Logged out successfully.", 'success')
     return redirect(url_for('login'))
 
+
+@app.route('/privacy')
+@login_required
+def privacy():
+    return render_template('privacy.html')
 
 @app.errorhandler(415)
 def unsupported_media_type(e):
