@@ -17,8 +17,7 @@ db_config = {
     'host': os.getenv('MYSQL_ADDON_HOST'),
     'user': os.getenv('MYSQL_ADDON_USER'),
     'password': os.getenv('MYSQL_ADDON_PASSWORD'),
-    'database': os.getenv('MYSQL_ADDON_DB'),
-     
+    'database': os.getenv('MYSQL_ADDON_DB'),  
 }
 
 def get_db_connection():
@@ -59,7 +58,21 @@ def index():
             """
             cursor.execute(query, (user_id,))
             trips = cursor.fetchall()
-            return render_template("index.html", trips=trips)
+            # LATEST TRIPS TRIP_ID
+            query = """
+                SELECT trip_id
+                FROM trips 
+                WHERE user_id = %s
+                ORDER BY trip_id DESC
+                LIMIT 1
+            """
+            cursor.execute(query, (user_id,))
+            last_trip_id = cursor.fetchone()
+            if last_trip_id:
+                last_trip_id = last_trip_id['trip_id']
+            else:
+                last_trip_id = None
+            return render_template("index.html", trips=trips,last_trip_id=last_trip_id)
         except mysql.connector.Error as e:
             print("2")
             return render_template("index.html", trips=[])
