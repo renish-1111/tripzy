@@ -7,6 +7,28 @@
     <title>Tripzy</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Keep the default body styling */
+        body {
+            background-color: #f3f4f6;
+            overflow: hidden;
+        }
+
+        /* Apply the background image only to the buttons container */
+        .buttons-container {
+            background-image: url("https://media.gettyimages.com/id/1297349747/photo/hot-air-balloons-flying-over-the-botan-canyon-in-turkey.jpg?s=612x612&w=0&k=20&c=kt8-RRzCDunpxgKFMBBjZ6jSteetNhhSxHZFvHQ0hNU=");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: -20px;
+            padding: 0px;
+            display: flex;
+            position: relative;
+            top: 0px;
+            height: 95dvh;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +45,7 @@
                 <div class="hidden sm:flex space-x-6">
                     <a href="/"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com" 
+                    <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
                     <a href="/privacy"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
@@ -51,7 +73,7 @@
             <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
                 <a href="/"
                     class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com" 
+                <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
                     class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
                     Us</a>
                 <a href="/privacy"
@@ -66,39 +88,45 @@
 
 
     <main class="container mx-auto mt-5">
-        <!-- Buttons for Navigation -->
-        <div class="flex flex-col items-center space-y-4 p-10">
-            <!-- Create Trip Button -->
-            <button id="createTripBtn" 
-                class="w-64 bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                Create Trip
-            </button>
-        
-            <!-- Previous Trips Button -->
-            <button id="previousTripsBtn" 
-                class="w-64 bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
-                Previous Trips
-            </button>
-        
-            <!-- Show Latest Trip Detail Button -->
-            <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}" 
-                class="w-64 bg-teal-500 text-white px-6 py-3 border border-teal-400 rounded-lg hover:bg-teal-600 font-bold text-center focus:outline-none focus:ring-2 focus:ring-teal-300">
-                Show Latest Trip Detail
-            </a>
-        
-            <!-- Show Latest Expense Chart Button -->
-            <a href="{{ url_for('expense', trip_id=last_trip_id) }}" 
-                class="w-64 bg-orange-500 text-white px-6 py-3 border border-orange-400 rounded-lg hover:bg-orange-600 font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-300">
-                Show Latest Expense Chart
-            </a>
-        </div>
-        
+        <!-- Buttons Section with Background -->
+        <div class="flex justify-center">
+            <div class="buttons-container flex flex-col items-center space-y-4 p-10 pt-28">
+                <!-- Create Trip Button -->
+                <button id="createTripBtn"
+                    class="w-64 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    Create Trip
+                </button>
 
-        <!-- Tabs -->
+                <!-- Previous Trips Button -->
+                <button id="previousTripsBtn"
+                    class="w-64 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                    Previous Trips
+                </button>
+                {% if last_trip_id %}
+                <!-- Show Latest Trip Detail Button -->
+                <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}">
+                    <button
+                        class="w-64 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+
+                        Show Latest Trip Detail
+                    </button>
+                </a>
+
+                <!-- Show Latest Expense Chart Button -->
+                <a href="{{ url_for('expense', trip_id=last_trip_id) }}">
+                    <button
+                        class="w-64 bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        Show Latest Expense Chart
+                    </button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Keep the other sections unchanged -->
         <div id="createTripTab" class="hidden">
             <h2 class="text-center font-bold text-2xl mb-4 text-gray-800">Create a New Trip</h2>
             <form method="post" id="tripForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-                <!-- Trip Name -->
                 <div class="mb-4">
                     <label for="tripName" class="block text-gray-700 font-medium mb-2">Trip Name</label>
                     <input type="text" id="tripName" name="tripName"
@@ -106,7 +134,6 @@
                         placeholder="Enter the trip name" required>
                 </div>
 
-                <!-- Destination -->
                 <div class="mb-4">
                     <label for="tripDestination" class="block text-gray-700 font-medium mb-2">Destination</label>
                     <input type="text" id="tripDestination" name="tripDestination"
@@ -114,7 +141,6 @@
                         placeholder="Enter the destination" required>
                 </div>
 
-                <!-- Save Button -->
                 <button type="submit"
                     class="w-full bg-green-500 text-white font-medium px-4 py-2 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
                     Save Trip
@@ -122,10 +148,7 @@
             </form>
         </div>
 
-
-        <!-- jinja templating code -->
         <div id="previousTripsTab" class="hidden">
-            <div></div>
             <h2 class="text-center font-bold text-2xl mb-4">Previous Trips</h2>
             {% if trips %}
             <table id="tripsTable" class="table-auto w-full border-collapse border border-gray-300">
@@ -158,7 +181,6 @@
             <p id="noTripsMessage" class="text-gray-600 text-center">No trips found.</p>
             {% endif %}
         </div>
-
     </main>
 
     <script src="/static/script.js"></script>

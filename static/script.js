@@ -22,4 +22,5 @@ function showTab(tabId) {
         tab.classList.add("hidden");
     });
     document.getElementById(tabId).classList.remove("hidden");
+    document.body.style.backgroundColor = tabId === "createTripTab" ? "#f0f0f0" :"url('../images/landing-bg.jpg')";
 }

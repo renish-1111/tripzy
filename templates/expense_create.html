@@ -126,22 +126,6 @@
                     </div>
                 </div>
             </div>
-
-            {% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-        <ul>
-            {% for category, message in messages %}
-                {% set color_class = 
-                    "text-red-500" if category == "error" else 
-                    "text-green-500" if category == "success" else 
-                    "text-blue-500" %}
-                <li class="{{ color_class }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
-
-
             <div class="border-t pt-4">
                 <button type="submit"
                     class="w-full bg-blue-600 text-white font-semibold text-sm py-3 rounded-md hover:bg-blue-700">

@@ -65,22 +65,26 @@
     <h1 class="text-center font-bold text-2xl mb-6 mt-6">Expenses for Trip: {{ trip_name }}</h1>
 
     <div class="container">
-        <div class="flex justify-start mx-10">
+        <div class="flex justify-start md:mx-10">
             <a href="{{ url_for('addexpense', trip_id=trip_id) }}"
-                class="bg-blue-600  mx-2  my-4 border-2 border-blue-500 hover:bg-blue-500 px-4 py-2 text-white font-bold rounded-xl text-center">Add
-                Expenses</a>
-                <a href="{{ url_for('expense', trip_id=trip_id) }}"
-                class="bg-green-600  mx-2 my-4 border border-green-500 hover:bg-green-500 px-4 py-2 text-white font-bold rounded-xl text-center">Show
-                Expenses Chart</a>
+                class="bg-blue-600 mx-2 my-4 border-2 border-blue-500 hover:bg-blue-500 px-4 py-2 text-white font-bold rounded-xl text-center flex items-center justify-center">
+                <span>Add Expense</span>
+            </a>
+            <a href="{{ url_for('expense', trip_id=trip_id) }}"
+                class="bg-green-600 mx-2 my-4 border border-green-500 hover:bg-green-500 px-4 py-2 text-white font-bold rounded-xl text-center flex items-center justify-center">
+                Show Expenses Chart
+            </a>
             <button onclick="generatePDF()"
-                class="bg-yellow-600  mx-2 my-4 border border-yellow-500 hover:bg-yellow-500 px-4 py-2 text-white font-bold rounded-xl text-center">Download
-                PDF</button>
+                class="bg-yellow-600 mx-2 my-4 border border-yellow-500 hover:bg-yellow-500 px-4 py-2 text-white font-bold rounded-xl flex items-center justify-center">
+                Download PDF
+            </button>
+
         </div>
     </div>
 
     {% if expenses %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-        {% for expense in expenses|reverse  %}
+        {% for expense in expenses|reverse %}
         <div class="bg-white shadow-md rounded-lg p-4 border border-gray-300">
             <h2 class="font-bold text-lg mb-2">Expense {{ loop.index }}</h2>
             <p class="text-gray-700"><span class="font-semibold">Category:</span> {{ expense.category }}</p>
@@ -92,16 +96,17 @@
                 expense.created_at.strftime('%d-%m-%Y') }}</p>
             <p class="text-gray-500 text-sm"><span class="font-semibold">Created At:</span> {{
                 expense.created_at.strftime('%H:%M:%S') }}</p>
-            <div class="flex justify-end space-x-4 mt-4">
+            <div class="flex action-buttons justify-end space-x-4 mt-4">
                 <a href="{{ url_for('update_expense', expense_id=expense.expense_id) }}"
                     class="text-blue-500 hover:underline">Update</a>
-                <form action="{{ url_for('delete_expense',expense_id=expense.expense_id) }}" method="post"
+                <form action="{{ url_for('delete_expense', expense_id=expense.expense_id) }}" method="post"
                     style="display:inline;">
                     <input type="hidden" name="expense_id" value="{{ expense.expense_id }}">
                     <button type="submit" class="text-red-500 hover:underline"
                         style="background:none;border:none;padding:0;">Delete</button>
                 </form>
             </div>
+
         </div>
         {% endfor %}
     </div>
@@ -110,26 +115,25 @@
     {% endif %}
     <script>
         function generatePDF() {
-            //hide navbar
-            document.querySelector('nav').style.display = 'none';
-            //hide buttons
-            document.querySelector('.container').style.display = 'none';
-            //remove update and delete buttons
-            document.querySelectorAll('.flex').forEach((flex) => {
-                flex.style.display = 'none';
-            });
-            //generate pdf name with trip name
+            const nav = document.querySelector('nav');
+            const buttonsContainer = document.querySelector('.container');
+            const actionButtons = document.querySelectorAll('.action-buttons');
+
+            // Hide elements
+            nav.style.display = 'none';
+            buttonsContainer.style.display = 'none';
+            actionButtons.forEach((flex) => (flex.style.display = 'none'));
+
+            // Generate PDF
             window.print();
 
-            //show navbar
-            document.querySelector('nav').style.display = 'block';
-            //show buttons
-            document.querySelector('.container').style.display = 'block';
-            //show update and delete buttons
-            document.querySelectorAll('.flex').forEach((flex) => {
-                flex.style.display = 'flex';
-            });
+            // Restore visibility
+            nav.style.display = 'block';
+            buttonsContainer.style.display = 'block';
+            actionButtons.forEach((flex) => (flex.style.display = 'flex'));
         }
+
+
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

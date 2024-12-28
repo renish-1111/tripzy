@@ -252,7 +252,28 @@ def addexpense(trip_id):
 @login_required
 def update_expense(expense_id):
     if request.method == 'GET':
-        return render_template("expense_edit.html")
+        
+        conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    if request.method == 'GET':
+        try:
+            # Fetch existing expense data for pre-filling the form
+            cursor = conn.cursor(dictionary=True)
+            query = "SELECT * FROM expenses WHERE expense_id = %s"
+            cursor.execute(query, (expense_id,))
+            expense = cursor.fetchone()
+
+            if not expense:
+                return jsonify({"error": "Expense not found"}), 404
+
+            return render_template('expense_edit.html', expense=expense)
+        except mysql.connector.Error as e:
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
 
     if request.method == 'POST':
         user_id = session.get('user_id')  # Ensure the user is authenticated

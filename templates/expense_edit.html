@@ -21,18 +21,26 @@
                 </div>
                 <!-- Right Section: Menu -->
                 <div class="hidden sm:flex space-x-6">
-                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="/" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
-                    <a href="#" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy Policy</a>
-                    <a href="{{ url_for('logout') }}" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
+                    <a href="/"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="/"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
+                    <a href="#"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
+                        Policy</a>
+                    <a href="{{ url_for('logout') }}"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
                 </div>
                 <!-- Mobile Menu Button -->
                 <div class="sm:hidden flex items-center">
-                    <button id="mobile-menu-button" class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                    <button id="mobile-menu-button"
+                        class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
                         <span class="sr-only">Open main menu</span>
                         <!-- Menu Icon -->
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
@@ -41,10 +49,17 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="sm:hidden hidden">
             <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
-                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="/" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact Us</a>
-                <a href="#" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy Policy</a>
-                <a href="{{ url_for('logout') }}" class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log Out</a>
+                <a href="/"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="/"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
+                    Us</a>
+                <a href="#"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
+                    Policy</a>
+                <a href="{{ url_for('logout') }}"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log
+                    Out</a>
             </div>
         </div>
     </nav>
@@ -60,12 +75,15 @@
                     <!-- Category -->
                     <div>
                         <label for="category" class="block text-sm font-medium text-gray-700">Cost Category</label>
-                        <select id="category" name="category"
+                        <select id="category" name="category" value="{{ expense.category }}"
                             class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="General">General</option>
-                            <option value="Food">Food</option>
-                            <option value="Travel">Travel</option>
-                            <option value="Night Stay">Night Stay</option>
+                            <option value="General" {% if expense.category=='General' %}selected{% endif %}>General
+                            </option>
+                            <option value="Food" {% if expense.category=='Food' %}selected{% endif %}>Food</option>
+                            <option value="Travel" {% if expense.category=='Travel' %}selected{% endif %}>Travel
+                            </option>
+                            <option value="Night Stay" {% if expense.category=='Night Stay' %}selected{% endif %}>Night
+                                Stay</option>
                         </select>
                     </div>
 
@@ -74,7 +92,7 @@
                         <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
                         <input type="number" name="amount" id="amount"
                             class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            placeholder="Enter amount">
+                            placeholder="Enter amount" value="{{ expense.amount }}">
                     </div>
                 </div>
             </div>
@@ -87,7 +105,7 @@
                         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                         <textarea id="description" name="description"
                             class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            rows="3" placeholder="Enter description"></textarea>
+                            rows="3" placeholder="Enter description">{{ expense.description }}</textarea>
                     </div>
 
                     <!-- Location -->
@@ -95,18 +113,20 @@
                         <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
                         <input type="text" name="location" id="location"
                             class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            placeholder="Enter location">
+                            placeholder="Enter location" value="{{expense.location}}">
                     </div>
 
                     <!-- Payment Method -->
                     <div>
                         <label for="method" class="block text-sm font-medium text-gray-700">Payment Method</label>
                         <select id="method" name="method"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="cash">Cash</option>
-                            <option value="card">Card</option>
-                            <option value="upi">UPI</option>
-                            <option value="netbanking">Netbanking</option>
+                            class="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            value="{{expense.method}}">
+                            <option value="Cash" {% if expense.method=='Cash' %}selected{% endif %}>Cash</option>
+                            <option value="Card" {% if expense.method=='Card' %}selected{% endif %}>Card</option>
+                            <option value="UPI" {% if expense.method=='UPI' %}selected{% endif %}>UPI</option>
+                            <option value="NetBanking" {% if expense.method=='NetBanking' %}selected{% endif %}>
+                                NetBanking</option>
                         </select>
                     </div>
                 </div>
@@ -122,8 +142,8 @@
     </div>
 
     <Script>
-         // Tab navigation
-         document.addEventListener('DOMContentLoaded', () => {
+        // Tab navigation
+        document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
