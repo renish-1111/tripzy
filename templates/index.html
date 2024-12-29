@@ -14,7 +14,7 @@
             overflow: hidden;
         }
 
-        /* Apply the background image only to the buttons container */
+        /* Apply the background image only to the buttons container
         .buttons-container {
             background-image: url("https://media.gettyimages.com/id/1297349747/photo/hot-air-balloons-flying-over-the-botan-canyon-in-turkey.jpg?s=612x612&w=0&k=20&c=kt8-RRzCDunpxgKFMBBjZ6jSteetNhhSxHZFvHQ0hNU=");
             background-size: cover;
@@ -27,7 +27,7 @@
             top: 0px;
             height: 95dvh;
             width: 100%;
-        }
+        } */
     </style>
 </head>
 
@@ -172,7 +172,17 @@
                                 <button type="submit"
                                     class="bg-green-500 w-full text-white px-4 py-2 rounded">Details</button>
                             </form>
+                            <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET">
+                                <button type="submit"
+                                    class="bg-yellow-500 w-full text-white px-4 py-2 rounded my-1">Edit</button>
+                            </form>
+                            <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET">
+                                <button type="submit"
+                                    class="bg-rose-500 w-full text-white px-4 py-2 rounded my-1">Delete</button>
+                            </form>
+
                         </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
