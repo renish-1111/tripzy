@@ -152,7 +152,7 @@ def expense(trip_id):
     conn = get_db_connection()
     
     if conn is None:
-        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Unknown")
+        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Unknown",destination="Unknown")
 
     try:
         cursor = conn.cursor(dictionary=True)
@@ -166,6 +166,17 @@ def expense(trip_id):
         cursor.execute(trip_name_query, (trip_id, user_id))
         trip_row = cursor.fetchone()
         trip_name = trip_row['trip_name'] if trip_row else "Unknown"
+
+        #Destination querty based on trip id
+
+        destination_query = """
+            SELECT destination 
+            FROM trips
+            WHERE trip_id = %s AND user_id = %s
+        """
+        cursor.execute(destination_query, (trip_id, user_id))
+        trip_row = cursor.fetchone()
+        destination = trip_row['destination'] if trip_row else "Unknown"
 
         # Fetch the total sum of 'General' category expenses for the selected trip
         expenses_query = """
@@ -183,11 +194,11 @@ def expense(trip_id):
         cursor.execute(expenses_query, (trip_id, user_id))
         cost = cursor.fetchone()  # Since it's a SUM query, use fetchone() to get a single row
 
-        return render_template("expense_chart.html", cost=cost, trip_id=trip_id, trip_name=trip_name)
+        return render_template("expense_chart.html", cost=cost, trip_id=trip_id, trip_name=trip_name,destination=destination)
 
     except mysql.connector.Error as e:
         # Handle errors and render with an error message
-        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Error")
+        return render_template("expense_chart.html", cost=[], trip_id=trip_id, trip_name="Error",destination="Error")
     finally:
         cursor.close()
         conn.close()
