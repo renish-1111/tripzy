@@ -155,6 +155,33 @@ def create_trip():
         finally:
             cursor.close()
             conn.close()
+
+@app.route('/trip/history', methods=['GET'])
+@login_required
+def trip_history():
+    user_id = session.get('user_id')
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+    
+    if request.method == 'GET':
+        try:
+            cursor = conn.cursor(dictionary=True)
+            query = """
+                SELECT *
+                FROM trips
+                WHERE user_id = %s
+            """
+            cursor.execute(query, (user_id,))
+            trips = cursor.fetchall()
+            return render_template("trip_history.html", trips=trips)
+        except mysql.connector.Error as e:
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+        
+        return render_template("trip_history.html", trips=trips)
             
 
 
