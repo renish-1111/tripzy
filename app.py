@@ -106,6 +106,130 @@ def index():
         finally:
             cursor.close()
             conn.close()
+            
+@app.route('/trip/create', methods=['GET', 'POST'])
+@login_required
+def create_trip():
+
+    if request.method == 'GET':
+        return render_template("create_trip.html")
+
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({"error": "User not authenticated"}), 403
+        
+        trip_name = request.form.get('tripName')
+        destination = request.form.get('tripDestination')
+        
+        if not trip_name or not destination:
+            return jsonify({"error": "'tripName' and 'destination' are required."}), 400
+        
+        conn = get_db_connection()
+        if conn is None:
+            return jsonify({"error": "Database connection failed."}), 500
+        
+        try:
+            cursor = conn.cursor()
+            query = """
+                INSERT INTO trips (user_id, trip_name, destination) 
+                VALUES (%s, %s, %s)
+            """
+            cursor.execute(query, (user_id, trip_name, destination))
+            conn.commit()
+            
+            cursor = conn.cursor()
+            query = """
+                SELECT trip_id
+                FROM trips
+                WHERE user_id = %s
+                ORDER BY trip_id DESC
+                LIMIT 1
+            """
+            cursor.execute(query, (user_id,))
+            trip_id = cursor.fetchone()
+            conn.commit()
+            return redirect(url_for('expense', trip_id=trip_id[0]))
+        except mysql.connector.Error as e:
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+            
+
+
+@app.route('/trip/<int:trip_id>/delete', methods=['POST'])
+@login_required
+def delete_trip(trip_id):
+    user_id = session.get('user_id')  # Ensure user is authenticated
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+    
+    try:
+        cursor = conn.cursor()
+        
+        # Delete all expenses for the trip
+        query="DELETE FROM expense WHERE trip_id = %s AND user_id = %s"
+        cursor.execute(query, (trip_id, user_id))
+        
+        # Delete the trip
+        query = "DELETE FROM trips WHERE trip_id = %s AND user_id = %s"
+        cursor.execute(query, (trip_id, user_id))
+        
+        conn.commit()
+        return redirect(url_for('index'))
+    except mysql.connector.Error as e:
+        return jsonify({"error": f"Database error: {e}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+@app.route('/trip/<int:trip_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_trip(trip_id):
+    user_id = session.get('user_id')
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+    
+    if request.method == 'GET':
+        try:
+            cursor = conn.cursor(dictionary=True)
+            query = "SELECT * FROM trips WHERE trip_id = %s AND user_id = %s"
+            cursor.execute(query, (trip_id, user_id))
+            trip = cursor.fetchone()
+            if not trip:
+                return jsonify({"error": "Trip not found."}), 404
+            return render_template("trip_edit.html", trip=trip)
+        except mysql.connector.Error as e:
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
+    
+    if request.method == 'POST':
+        trip_name = request.form.get('tripName')
+        destination = request.form.get('tripDestination')
+        
+        if not trip_name or not destination:
+            return jsonify({"error": "'tripName' and 'destination' are required."}), 400
+        
+        try:
+            cursor = conn.cursor()
+            query = """
+                UPDATE trips
+                SET trip_name = %s, destination = %s
+                WHERE trip_id = %s AND user_id = %s
+            """
+            cursor.execute(query, (trip_name, destination, trip_id, user_id))
+            conn.commit()
+            return redirect(url_for('index'))
+        except mysql.connector.Error as e:
+            return jsonify({"error": f"Database error: {e}"}), 500
+        finally:
+            cursor.close()
+            conn.close()
 
 
 @app.route('/trip/<int:trip_id>', methods=['GET'])

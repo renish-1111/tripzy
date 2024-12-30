@@ -116,10 +116,12 @@
         <div class="flex justify-center">
             <div class="buttons-container flex flex-col items-center space-y-4 p-10 pt-28">
                 <!-- Create Trip Button -->
-                <button id="createTripBtn"
+                <a href="{{ url_for('create_trip')}}">
+                    <button
                     class="w-64 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    Create Trip
-                </button>
+                        Create New Trip
+                    </button>
+                </a>
 
                 <!-- Previous Trips Button -->
                 <button id="previousTripsBtn"
