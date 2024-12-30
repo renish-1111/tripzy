@@ -24,6 +24,8 @@
                 <div class="hidden sm:flex space-x-6">
                     <a href="/"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="#feature"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">About us</a>
                     <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
                     <a href="/privacy"
@@ -74,14 +76,16 @@
             <div class="text-center space-y-4">
                 <h2 class="text-4xl font-extrabold">Discover Tripzy</h2>
                 <p class="text-lg">
-                    Your ultimate trip management solution! Plan, track, and manage your trips effortlessly with our modern, user-friendly interface.
+                    Your ultimate trip management solution! Plan, track, and manage your trips effortlessly with our
+                    modern, user-friendly interface.
                 </p>
             </div>
-    
+
             <!-- Photo Showcase Section -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl">
                 <!-- Photo Card 1 -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
                     <img src="/static/planning.avif" alt="Trip Planning" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-teal-600">Effortless Planning</h3>
@@ -91,7 +95,8 @@
                     </div>
                 </div>
                 <!-- Photo Card 2 -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
                     <img src="/static/expense_management.jpg" alt="Expense Management" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-blue-600">Smart Expense Tracking</h3>
@@ -101,7 +106,8 @@
                     </div>
                 </div>
                 <!-- Photo Card 3 -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
                     <img src="/static/meaningful insigh.webp" alt="Trip Insights" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-indigo-600">Meaningful Insights</h3>
@@ -111,38 +117,43 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- Buttons Section -->
             <div class="flex flex-col items-center space-y-4">
                 <a href="{{ url_for('create_trip') }}">
-                    <button class="w-64 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                    <button
+                        class="w-64 bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
                         Create New Trip
                     </button>
                 </a>
                 <a href="{{ url_for('trip_history') }}">
-                    <button class="w-64 bg-gradient-to-r from-purple-400 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                    <button
+                        class="w-64 bg-gradient-to-r from-purple-400 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
                         Previous History
                     </button>
                 </a>
                 {% if last_trip_id %}
                 <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}">
-                    <button class="w-64 bg-gradient-to-r from-red-400 to-red-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                    <button
+                        class="w-64 bg-gradient-to-r from-red-400 to-red-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
                         Show Latest Trip Detail
                     </button>
                 </a>
                 <a href="{{ url_for('expense', trip_id=last_trip_id) }}">
-                    <button class="w-64 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                    <button
+                        class="w-64 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
                         Show Latest Expense Chart
                     </button>
                 </a>
                 {% endif %}
             </div>
-    
+
             <!-- Interactive Chart Section -->
             <div class="flex flex-col items-center space-y-6 w-full max-w-4xl mt-8">
                 <h3 class="text-3xl font-bold">How Tripzy Simplifies Your Travel</h3>
                 <p class="text-lg">
-                    Check out these statistics to see how Tripzy saves time and effort while enhancing your travel experience.
+                    Check out these statistics to see how Tripzy saves time and effort while enhancing your travel
+                    experience.
                 </p>
                 <div class="w-full h-80 bg-white shadow-lg rounded-lg p-6">
                     <!-- Placeholder for Chart -->
@@ -150,63 +161,66 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Features and Details Section -->
-        <section class="flex flex-col items-center mt-12 bg-gray-50 py-12 px-6 shadow-md rounded-lg space-y-8">
-            <h3 class="text-4xl font-extrabold text-gray-800">Why Choose Tripzy?</h3>
+        <section id="feature" class="flex flex-col items-center mt-12 bg-gray-50 py-12 px-6 shadow-md rounded-lg space-y-8">
+            <h3 class="text-4xl font-extrabold text-gray-800">About us</h3>
             <p class="text-lg text-gray-600 text-center max-w-4xl">
-                Tripzy is not just a trip management tool; it's your travel companion. From planning your journey to managing expenses and gaining insights, Tripzy ensures your trips are smooth, organized, and unforgettable.
+                Tripzy is not just a trip management tool, it's your travel companion. From planning your journey to
+                managing expenses and gaining insights, Tripzy ensures your trips are smooth, organized, and
+                unforgettable.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl">
                 <!-- Feature 1 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-teal-500">Comprehensive Planning</h4>
                     <p class="text-gray-600 mt-4">
                         Plan your trips with precision using our detailed itinerary builder and customizable schedules.
                     </p>
                 </div>
                 <!-- Feature 2 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-blue-500">Advanced Expense Tracking</h4>
                     <p class="text-gray-600 mt-4">
                         Record every expense in real-time and monitor budgets effortlessly with intelligent tools.
                     </p>
                 </div>
                 <!-- Feature 3 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-purple-500">Insightful Analytics</h4>
                     <p class="text-gray-600 mt-4">
                         Gain insights with detailed graphs and summaries that help you evaluate your travel habits.
                     </p>
                 </div>
                 <!-- Feature 4 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-yellow-500">Multi-Platform Access</h4>
                     <p class="text-gray-600 mt-4">
                         Access Tripzy on web, mobile, and tablet for seamless trip management anytime, anywhere.
                     </p>
                 </div>
                 <!-- Feature 5 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-red-500">Secure and Private</h4>
                     <p class="text-gray-600 mt-4">
-                        Your data is protected with state-of-the-art security features to ensure privacy and confidentiality.
+                        Your data is protected with state-of-the-art security features to ensure privacy and
+                        confidentiality.
                     </p>
                 </div>
                 <!-- Feature 6 -->
-                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                     <h4 class="text-2xl font-bold text-indigo-500">Collaboration Tools</h4>
                     <p class="text-gray-600 mt-4">
                         Plan trips with friends and family using collaborative features like shared itineraries.
                     </p>
                 </div>
             </div>
-            
+
         </section>
-    
+
     </main>
-    
-    
+
+
 
 
     <!-- Footer -->
@@ -235,8 +249,7 @@
                 <div>
                     <h4 class="text-lg font-bold mb-4">Follow Us</h4>
                     <div class="flex space-x-4">
-                        <a href="https://github.com/your-github" target="_blank"
-                            class="text-white hover:text-gray-300">
+                        <a href="https://github.com/your-github" target="_blank" class="text-white hover:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6"
                                 viewBox="0 0 24 24">
                                 <path
@@ -273,8 +286,8 @@
     <!-- Chart Initialization -->
     <script>
 
-          // Tab navigation
-          document.addEventListener('DOMContentLoaded', () => {
+        // Tab navigation
+        document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
