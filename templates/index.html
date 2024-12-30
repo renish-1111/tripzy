@@ -123,11 +123,11 @@
                     </button>
                 </a>
 
-                <!-- Previous Trips Button -->
-                <button id="previousTripsBtn"
+                <a href="{{ url_for('trip_history')}}">
+                    <button
                     class="w-64 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                    Previous Trips
-                </button>
+                        Previous History</button>
+                </a>
                 {% if last_trip_id %}
                 <!-- Show Latest Trip Detail Button -->
                 <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}">
