@@ -174,16 +174,13 @@ def trip_history():
             """
             cursor.execute(query, (user_id,))
             trips = cursor.fetchall()
-            return render_template("trip_history.html", trips=trips)
+            return render_template("history.html", trips=trips)
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
             cursor.close()
             conn.close()
         
-        return render_template("trip_history.html", trips=trips)
-            
-
 
 @app.route('/trip/<int:trip_id>/delete', methods=['POST'])
 @login_required
@@ -197,7 +194,7 @@ def delete_trip(trip_id):
         cursor = conn.cursor()
         
         # Delete all expenses for the trip
-        query="DELETE FROM expense WHERE trip_id = %s AND user_id = %s"
+        query="DELETE FROM expenses WHERE trip_id = %s AND user_id = %s"
         cursor.execute(query, (trip_id, user_id))
         
         # Delete the trip
@@ -205,7 +202,7 @@ def delete_trip(trip_id):
         cursor.execute(query, (trip_id, user_id))
         
         conn.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('trip_history'))
     except mysql.connector.Error as e:
         return jsonify({"error": f"Database error: {e}"}), 500
     finally:

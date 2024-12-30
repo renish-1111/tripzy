@@ -84,12 +84,11 @@
                     <tr>
                         <td class="border border-gray-300 px-4 py-2 text-center">{{loop.index}}</td>
                         <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.trip_name }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at.strftime('%d-%m-%Y')
-                            }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at}}</td>
                         <td class="border border-gray-300 px-4 py-2 my-4 text-center">
                             <div class="flex justify-center gap-4">
                                 <!-- Button 1 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
+                                <form action="{{ url_for('expense', trip_id = trip.trip_id) }}" method="GET"
                                     class="inline-block">
                                     <button type="submit" class="inline-block text-blue-500 p-0 border-0 my-1 ">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -103,7 +102,7 @@
                                 </form>
 
                                 <!-- Button 2 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
+                                <form action="{{ url_for('edit_trip', trip_id = trip.trip_id) }}" method="GET"
                                     class="inline-block">
                                     <button type="submit"
                                         class="inline-block text-green-500 bg-transparent p-0 border-0 my-1">
@@ -118,7 +117,7 @@
                                 </form>
 
                                 <!-- Button 3 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
+                                <form action="{{ url_for('delete_trip', trip_id= trip.trip_id) }}" method="post"
                                     class="inline-block">
                                     <button type="submit"
                                         class="inline-block text-red-500 bg-transparent p-0 border-0 my-1">
