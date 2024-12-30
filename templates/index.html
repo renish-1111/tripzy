@@ -74,10 +74,11 @@
             <div class="text-center space-y-4">
                 <h2 class="text-3xl font-bold text-gray-800">Discover Tripzy</h2>
                 <p class="text-lg text-gray-600">
-                    Your ultimate trip management solution! Plan, track, and manage your trips effortlessly with our modern, user-friendly interface.
+                    Your ultimate trip management solution! Plan, track, and manage your trips effortlessly with our
+                    modern, user-friendly interface.
                 </p>
             </div>
-        
+
             <!-- Photo Showcase Section -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
                 <!-- Photo Card 1 -->
@@ -112,48 +113,49 @@
                 </div>
             </div>
 
-             <!-- Buttons Section with Background -->
-        <div class="flex justify-center">
-            <div class="buttons-container flex flex-col items-center space-y-4 p-10 pt-28">
-                <!-- Create Trip Button -->
-                <a href="{{ url_for('create_trip')}}">
-                    <button
-                    class="w-64 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        Create New Trip
-                    </button>
-                </a>
+            <!-- Buttons Section with Background -->
+            <div class="flex justify-center">
+                <div class="buttons-container flex flex-col items-center space-y-4 p-10 pt-28">
+                    <!-- Create Trip Button -->
+                    <a href="{{ url_for('create_trip')}}">
+                        <button
+                            class="w-64 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            Create New Trip
+                        </button>
+                    </a>
 
-                <a href="{{ url_for('trip_history')}}">
-                    <button
-                    class="w-64 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                        Previous History</button>
-                </a>
-                {% if last_trip_id %}
-                <!-- Show Latest Trip Detail Button -->
-                <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}">
-                    <button
-                        class="w-64 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+                    <a href="{{ url_for('trip_history')}}">
+                        <button
+                            class="w-64 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            Previous History</button>
+                    </a>
+                    {% if last_trip_id %}
+                    <!-- Show Latest Trip Detail Button -->
+                    <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}">
+                        <button
+                            class="w-64 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
 
-                        Show Latest Trip Detail
-                    </button>
-                </a>
+                            Show Latest Trip Detail
+                        </button>
+                    </a>
 
-                <!-- Show Latest Expense Chart Button -->
-                <a href="{{ url_for('expense', trip_id=last_trip_id) }}">
-                    <button
-                        class="w-64 bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                        Show Latest Expense Chart
-                    </button>
-                </a>
-                {% endif %}
+                    <!-- Show Latest Expense Chart Button -->
+                    <a href="{{ url_for('expense', trip_id=last_trip_id) }}">
+                        <button
+                            class="w-64 bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                            Show Latest Expense Chart
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        
+
             <!-- Interactive Chart Section -->
             <div class="flex flex-col items-center space-y-6 w-full max-w-4xl">
                 <h3 class="text-2xl font-semibold text-gray-700">How Tripzy Simplifies Your Travel</h3>
                 <p class="text-md text-gray-500">
-                    Check out these statistics to see how Tripzy saves time and effort while enhancing your travel experience.
+                    Check out these statistics to see how Tripzy saves time and effort while enhancing your travel
+                    experience.
                 </p>
                 <div class="w-full h-80 bg-white shadow-md rounded-lg p-6">
                     <!-- Placeholder for Chart -->
@@ -163,81 +165,6 @@
         </div>
 
 
-        <div id="previousTripsTab" class="hidden">
-            <h2 class="text-center font-bold text-2xl mb-4">Previous Trips</h2>
-            {% if trips %}
-            <table id="tripsTable" class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="border border-gray-300 px-4 py-2">SNO</th>
-                        <th class="border border-gray-300 px-4 py-2">Trip Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Created At</th>
-                        <th class="border border-gray-300 px-4 py-2">Full Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for trip in trips|reverse %}
-                    <tr>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{loop.index}}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.trip_name }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at.strftime('%d-%m-%Y')
-                            }}</td>
-                        <td class="border border-gray-300 px-4 py-2 my-4 text-center">
-                            <div class="flex justify-center gap-4">
-                                <!-- Button 1 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
-                                    class="inline-block">
-                                    <button type="submit" class="inline-block text-blue-500 p-0 border-0 my-1 ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                            <path fill-rule="evenodd"
-                                                d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </form>
-
-                                <!-- Button 2 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
-                                    class="inline-block">
-                                    <button type="submit"
-                                        class="inline-block text-green-500 bg-transparent p-0 border-0 my-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="size-6">
-                                            <path
-                                                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                                            <path
-                                                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-                                        </svg>
-                                    </button>
-                                </form>
-
-                                <!-- Button 3 -->
-                                <form action="{{ url_for('expense', trip_id=trip.trip_id) }}" method="GET"
-                                    class="inline-block">
-                                    <button type="submit"
-                                        class="inline-block text-red-500 bg-transparent p-0 border-0 my-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="size-6">
-                                            <path fill-rule="evenodd"
-                                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-
-
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p id="noTripsMessage" class="text-gray-600 text-center">No trips found.</p>
-            {% endif %}
-        </div>
     </main>
 
 
@@ -302,8 +229,11 @@
     </footer>
 
 
+    <!-- Chart Initialization -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+
+          // Tab navigation
+          document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -312,9 +242,47 @@
                 mobileMenu.classList.toggle('hidden');
             });
         });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('tripzyStatsChart').getContext('2d');
+            const tripzyStatsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Planning', 'Booking', 'Saving', 'Time', 'Effort'],
+                    datasets: [{
+                        label: 'Efficiency (%)',
+                        data: [85, 75, 90, 80, 70],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(54, 162, 235, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
     </script>
-    <script src="/static/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 
 </html>

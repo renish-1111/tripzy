@@ -66,11 +66,10 @@
     </nav>
 
 
-    <main class="container mx-auto mt-5 min-h-screen md:min-h-96 px-1">
-        <div id="previousTripsTab" class="">
+    <main class="container mx-auto mt-5  md:min-h-96 right-0 ">
             <h2 class="text-center font-bold text-2xl mb-4">Previous Trips</h2>
             {% if trips %}
-            <table id="tripsTable" class="table-auto w-full border-collapse border border-gray-300">
+            <table id="tripsTable" class="table-auto w-full border-collapse border border-gray-300 mb-6 overflow">
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="border border-gray-300 px-4 py-2">SNO</th>
@@ -87,7 +86,7 @@
                         <td class="border border-gray-300 px-4 py-2 text-center">{{ trip.created_at.strftime('%d-%m-%Y') }}</td>
 
                         <td class="border border-gray-300 px-4 py-2 my-4 text-center">
-                            <div class="flex justify-center gap-4">
+                            <div class="flex justify-center gap-1">
                                 <!-- Button 1 -->
                                 <form action="{{ url_for('expense', trip_id = trip.trip_id) }}" method="GET"
                                     class="inline-block">
@@ -218,8 +217,6 @@
         });
     });
 </script>
-<script src="/static/script.js"></script>
-
 </body>
 
 </html>
