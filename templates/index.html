@@ -161,34 +161,6 @@
         </div>
 
 
-       
-
-
-        <!-- Keep the other sections unchanged -->
-        <div id="createTripTab" class="hidden">
-            <h2 class="text-center font-bold text-2xl mb-4 text-gray-800">Create a New Trip</h2>
-            <form method="post" id="tripForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-                <div class="mb-4">
-                    <label for="tripName" class="block text-gray-700 font-medium mb-2">Trip Name</label>
-                    <input type="text" id="tripName" name="tripName"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
-                        placeholder="Enter the trip name" required>
-                </div>
-
-                <div class="mb-4">
-                    <label for="tripDestination" class="block text-gray-700 font-medium mb-2">Destination</label>
-                    <input type="text" id="tripDestination" name="tripDestination"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
-                        placeholder="Enter the destination" required>
-                </div>
-
-                <button type="submit"
-                    class="w-full bg-green-500 text-white font-medium px-4 py-2 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
-                    Save Trip
-                </button>
-            </form>
-        </div>
-
         <div id="previousTripsTab" class="hidden">
             <h2 class="text-center font-bold text-2xl mb-4">Previous Trips</h2>
             {% if trips %}
