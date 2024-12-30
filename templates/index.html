@@ -67,7 +67,52 @@
 
 
     <main class="container mx-auto mt-5">
-        <!-- Buttons Section with Background -->
+
+        <!-- discovery section -->
+        <div class="flex flex-col items-center space-y-12 mt-10 p-6 bg-gray-50 rounded-lg shadow-lg">
+            <!-- App Introduction Section -->
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl font-bold text-gray-800">Discover Tripzy</h2>
+                <p class="text-lg text-gray-600">
+                    Your ultimate trip management solution! Plan, track, and manage your trips effortlessly with our modern, user-friendly interface.
+                </p>
+            </div>
+        
+            <!-- Photo Showcase Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+                <!-- Photo Card 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="/static/planning.avif" alt="Trip Planning" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-700">Effortless Planning</h3>
+                        <p class="text-sm text-gray-500">
+                            Simplify your trip planning with intuitive tools designed to make your experience seamless.
+                        </p>
+                    </div>
+                </div>
+                <!-- Photo Card 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="/static/expense_management.jpg" alt="Expense Management" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-700">Smart Expense Tracking</h3>
+                        <p class="text-sm text-gray-500">
+                            Keep track of your expenses with detailed breakdowns and interactive summaries.
+                        </p>
+                    </div>
+                </div>
+                <!-- Photo Card 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="/static/meaningful insigh.webp" alt="Trip Insights" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-700">Meaningful Insights</h3>
+                        <p class="text-sm text-gray-500">
+                            Gain valuable insights into your trips with data-driven analytics and charts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Buttons Section with Background -->
         <div class="flex justify-center">
             <div class="buttons-container flex flex-col items-center space-y-4 p-10 pt-28">
                 <!-- Create Trip Button -->
@@ -101,6 +146,23 @@
                 {% endif %}
             </div>
         </div>
+        
+            <!-- Interactive Chart Section -->
+            <div class="flex flex-col items-center space-y-6 w-full max-w-4xl">
+                <h3 class="text-2xl font-semibold text-gray-700">How Tripzy Simplifies Your Travel</h3>
+                <p class="text-md text-gray-500">
+                    Check out these statistics to see how Tripzy saves time and effort while enhancing your travel experience.
+                </p>
+                <div class="w-full h-80 bg-white shadow-md rounded-lg p-6">
+                    <!-- Placeholder for Chart -->
+                    <canvas id="tripzyStatsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+       
+
 
         <!-- Keep the other sections unchanged -->
         <div id="createTripTab" class="hidden">
@@ -206,8 +268,8 @@
 
 
     <!-- Footer -->
-    <footer class="bg-blue-600 text-white py-8 mt-8 ">
-        <div class="container mx-auto px-4">
+    <footer class="bg-blue-600 text-white py-8 static bottom-0 ">
+        <div class="container mx-auto px-4 ">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <!-- About Section -->
                 <div>
@@ -268,6 +330,7 @@
 
 
     <script src="/static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
