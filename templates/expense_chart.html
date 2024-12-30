@@ -131,8 +131,8 @@
         </div>
     </div>
 
-     <!-- Footer -->
-     <footer class="bg-blue-600 text-white py-8">
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-8">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <!-- About Section -->
@@ -194,15 +194,24 @@
 
     <script>
         function generatePDF() {
-            //hide navbar
-            document.querySelector('nav').style.display = 'none';
-            //hide buttons
-            document.querySelector('.container').style.display = 'none';
-            window.print();
-            //show navbar
-            document.querySelector('nav').style.display = 'block';
-            //show buttons
-            document.querySelector('.container').style.display = 'block';
+            const navbar = document.querySelector('nav');
+            const buttonsContainer = document.querySelector('.container');
+            const footer = document.querySelector('footer');
+
+            // Hide elements
+            navbar.style.display = 'none';
+            buttonsContainer.style.display = 'none';
+            footer.style.display = 'none';
+
+            // Delay printing to ensure elements are hidden
+            setTimeout(() => {
+                window.print();
+
+                // Restore elements after printing
+                navbar.style.display = 'block';
+                buttonsContainer.style.display = 'block';
+                footer.style.display = 'block';
+            }, 100);
         }
     </script>
 

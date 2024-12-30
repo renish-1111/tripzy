@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip Expenses</title>
+    <title>Tripzy</title>
     <link rel="icon" href="/static/airplane.png" type="image/icon type">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body>
     <!-- Navbar -->
     <nav class="bg-blue-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,9 +24,9 @@
                 <div class="hidden sm:flex space-x-6">
                     <a href="/"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="/"
+                    <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
-                    <a href="#"
+                    <a href="/privacy"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
                         Policy</a>
                     <a href="{{ url_for('logout') }}"
@@ -51,10 +52,10 @@
             <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
                 <a href="/"
                     class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="/"
+                <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
                     class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
                     Us</a>
-                <a href="#"
+                <a href="/privacy"
                     class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
                     Policy</a>
                 <a href="{{ url_for('logout') }}"
@@ -63,66 +64,54 @@
             </div>
         </div>
     </nav>
-    <h1 class="text-center font-bold text-2xl mb-6 mt-6">Expenses for Trip: {{ trip_name }}</h1>
 
-    <div class="container">
-        <div class="flex justify-start md:mx-10">
-            <a href="{{ url_for('addexpense', trip_id=trip_id) }}"
-                class="bg-blue-600 mx-2 my-4 border-2 border-blue-500 hover:bg-blue-500 px-4 py-2 text-white font-bold rounded-xl text-center flex items-center justify-center">
-                <span>Add Expense</span>
-            </a>
-            <a href="{{ url_for('expense', trip_id=trip_id) }}"
-                class="bg-green-600 mx-2 my-4 border border-green-500 hover:bg-green-500 px-4 py-2 text-white font-bold rounded-xl text-center flex items-center justify-center">
-                Show Expenses Chart
-            </a>
-            <button onclick="generatePDF()"
-                class="bg-yellow-600 mx-2 my-4 border border-yellow-500 hover:bg-yellow-500 px-4 py-2 text-white font-bold rounded-xl flex items-center justify-center">
-                Download PDF
-            </button>
 
-        </div>
-    </div>
+    <main class="container mx-auto mt-5">
+        <div id="createTripTab">
+            <div class="flex flex-col items-center py-10 bg-gray-50 ">
+                <!-- Header -->
+                <h2 class="text-center font-extrabold text-3xl mb-6 text-gray-800">
+                    Edit Trip
+                </h2>
 
-    {% if expenses %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-        {% for expense in expenses|reverse %}
-        <div class="bg-white shadow-md rounded-lg p-4 border border-gray-300">
-            <h2 class="font-bold text-lg mb-2">Expense {{ loop.index }}</h2>
-            <p class="text-gray-700"><span class="font-semibold">Category:</span> {{ expense.category }}</p>
-            <p class="text-gray-700"><span class="font-semibold">Amount:</span> ₹{{ expense.amount }}</p>
-            <p class="text-gray-700"><span class="font-semibold">Description:</span> {{ expense.description }}</p>
-            <p class="text-gray-700"><span class="font-semibold">Location:</span> {{ expense.location }}</p>
-            <p class="text-gray-700"><span class="font-semibold">Payment Method:</span> {{ expense.method }}</p>
-            <p class="text-gray-500 text-sm"><span class="font-semibold">Date:</span> {{
-                expense.created_at.strftime('%d-%m-%Y') }}</p>
-            <p class="text-gray-500 text-sm"><span class="font-semibold">Created At:</span> {{
-                expense.created_at.strftime('%H:%M:%S') }}</p>
-            <div class="flex action-buttons justify-end space-x-4 mt-4">
-                <a href="{{ url_for('update_expense', expense_id=expense.expense_id) }}"
-                    class="text-green-500 hover:underline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-                    </svg></a>
-                <form action="{{ url_for('delete_expense', expense_id=expense.expense_id) }}" method="post"
-                    style="display:inline;">
-                    <input type="hidden" name="expense_id" value="{{ expense.expense_id }}">
-                    <button type="submit" class="text-red-500 hover:underline"
-                        style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                            <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
-                        </svg></button>
+                <!-- Form Container -->
+                <form method="post" id="tripForm" class="max-w-lg w-full bg-white p-8 rounded-xl shadow-lg">
+                    <!-- Trip Name -->
+                    <div class="mb-6">
+                        <label for="tripName" class="block text-gray-800 text-lg font-semibold mb-2">
+                            Trip Name
+                        </label>
+                        <input type="text" id="tripName" name="tripName"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-200"
+                            value="{{ trip.trip_name }}"
+                            placeholder="Enter the trip name" required>
+                    </div>
+
+                    <!-- Destination -->
+                    <div class="mb-6">
+                        <label for="tripDestination" class="block text-gray-800 text-lg font-semibold mb-2">
+                            Destination
+                        </label>
+                        <input type="text" id="tripDestination" name="tripDestination"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-200"
+                            value="{{trip.destination}}"
+                            placeholder="Enter the destination" required>
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold px-4 py-3 rounded-lg hover:from-blue-600 hover:to-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none transition duration-300">
+                         Update Trip
+                    </button>
                 </form>
             </div>
-
         </div>
-        {% endfor %}
-    </div>
-    {% else %}
-    <p class="text-gray-600 text-center">No expenses found for this trip.</p>
-    {% endif %}
+    </main>
 
-     <!-- Footer -->
-     <footer class="bg-blue-600 text-white py-8 mt-8">
-        <div class="container mx-auto px-4">
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-8 static bottom-0 ">
+        <div class="container mx-auto px-4 ">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <!-- About Section -->
                 <div>
@@ -180,37 +169,7 @@
         </div>
     </footer>
 
-    <script>
-        function generatePDF() {
-            const nav = document.querySelector('nav');
-            const buttonsContainer = document.querySelector('.container');
-            const actionButtons = document.querySelectorAll('.action-buttons');
-            const footer = document.querySelector('footer');
 
-            // Hide elements
-            nav.style.display = 'none';
-            buttonsContainer.style.display = 'none';
-            actionButtons.forEach((flex) => (flex.style.display = 'none'));
-            footer.style.display = 'none';
-
-            // Generate PDF
-            setTimeout(() => {
-            window.print();
-
-            // Restore visibility
-            nav.style.display = 'block';
-            buttonsContainer.style.display = 'block';
-            actionButtons.forEach((flex) => (flex.style.display = 'flex'));
-            footer.style.display = 'block';
-        }, 100);
-        }
-
-
-    // Delay printing to ensure elements are hidden
-
-
-
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
@@ -222,6 +181,9 @@
             });
         });
     </script>
+
+    <script src="/static/script.js"></script>
+
 </body>
 
 </html>

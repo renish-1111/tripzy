@@ -225,7 +225,7 @@ def edit_trip(trip_id):
             trip = cursor.fetchone()
             if not trip:
                 return jsonify({"error": "Trip not found."}), 404
-            return render_template("trip_edit.html", trip=trip)
+            return render_template("edit_trip.html", trip=trip)
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
@@ -248,7 +248,7 @@ def edit_trip(trip_id):
             """
             cursor.execute(query, (trip_name, destination, trip_id, user_id))
             conn.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('trip_history'))
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
