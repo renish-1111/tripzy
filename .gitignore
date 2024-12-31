@@ -54,7 +54,6 @@ mysql.cnf
 .ipynb_checkpoints
 
 # Static files (optional if you're storing generated files only)
-static/
 media/
 
 # IDE files

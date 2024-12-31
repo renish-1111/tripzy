@@ -37,6 +37,34 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def getLastTripId(user_id):
+    conn = get_db_connection()
+    if conn is None:
+        return None
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+        query = """
+            SELECT trip_id
+            FROM trips 
+            WHERE user_id = %s
+            ORDER BY trip_id DESC
+            LIMIT 1
+        """
+        cursor.execute(query, (user_id,))
+        last_trip_id = cursor.fetchone()
+        if last_trip_id:
+                last_trip_id = last_trip_id['trip_id']
+        else:
+                last_trip_id = None
+        conn.commit()
+        return last_trip_id
+    except mysql.connector.Error as e:
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -110,9 +138,29 @@ def index():
 @app.route('/trip/create', methods=['GET', 'POST'])
 @login_required
 def create_trip():
+    user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+    cursor = conn.cursor(dictionary=True)
+    query = """
+                SELECT trip_id
+                FROM trips 
+                WHERE user_id = %s
+                ORDER BY trip_id DESC
+                LIMIT 1
+            """
+    cursor.execute(query, (user_id,))
+    last_trip_id = cursor.fetchone()
+    if last_trip_id:
+        last_trip_id = last_trip_id['trip_id']
+    else:
+        last_trip_id = None
+    
 
     if request.method == 'GET':
-        return render_template("create_trip.html")
+        return render_template("create_trip.html",last_trip_id=last_trip_id)
 
     if request.method == 'POST':
         user_id = session.get('user_id')
@@ -160,6 +208,7 @@ def create_trip():
 @login_required
 def trip_history():
     user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
     conn = get_db_connection()
     if conn is None:
         return jsonify({"error": "Database connection failed."}), 500
@@ -174,7 +223,7 @@ def trip_history():
             """
             cursor.execute(query, (user_id,))
             trips = cursor.fetchall()
-            return render_template("history.html", trips=trips)
+            return render_template("history.html", trips=trips,last_trip_id=last_trip_id)
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
@@ -213,6 +262,7 @@ def delete_trip(trip_id):
 @login_required
 def edit_trip(trip_id):
     user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
     conn = get_db_connection()
     if conn is None:
         return jsonify({"error": "Database connection failed."}), 500
@@ -225,7 +275,7 @@ def edit_trip(trip_id):
             trip = cursor.fetchone()
             if not trip:
                 return jsonify({"error": "Trip not found."}), 404
-            return render_template("edit_trip.html", trip=trip)
+            return render_template("edit_trip.html", trip=trip,last_trip_id=last_trip_id)
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
@@ -236,6 +286,9 @@ def edit_trip(trip_id):
         trip_name = request.form.get('tripName')
         destination = request.form.get('tripDestination')
         
+        conn = get_db_connection()
+        if conn is None:
+            return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Unknown")
         if not trip_name or not destination:
             return jsonify({"error": "'tripName' and 'destination' are required."}), 400
         
@@ -260,6 +313,7 @@ def edit_trip(trip_id):
 @login_required
 def trip_details(trip_id):
     user_id = session.get('user_id')  # Ensure user is authenticated
+    last_trip_id = getLastTripId(user_id)
     conn = get_db_connection()
     if conn is None:
         return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Unknown")
@@ -286,7 +340,7 @@ def trip_details(trip_id):
         cursor.execute(expenses_query, (trip_id, user_id))
         expenses = cursor.fetchall()
 
-        return render_template("expense.html", expenses=expenses, trip_id=trip_id, trip_name=trip_name)
+        return render_template("expense.html", expenses=expenses, trip_id=trip_id, trip_name=trip_name,last_trip_id=last_trip_id)
     except mysql.connector.Error as e:
         return render_template("expense.html", expenses=[], trip_id=trip_id, trip_name="Error")
     finally:
@@ -297,6 +351,7 @@ def trip_details(trip_id):
 @login_required
 def expense(trip_id):
     user_id = session.get('user_id')  # Ensure user is authenticated
+    last_trip_id = getLastTripId(user_id)
     conn = get_db_connection()
     
     if conn is None:
@@ -342,7 +397,7 @@ def expense(trip_id):
         cursor.execute(expenses_query, (trip_id, user_id))
         cost = cursor.fetchone()  # Since it's a SUM query, use fetchone() to get a single row
 
-        return render_template("expense_chart.html", cost=cost, trip_id=trip_id, trip_name=trip_name,destination=destination)
+        return render_template("expense_chart.html", cost=cost, trip_id=trip_id, trip_name=trip_name,destination=destination,last_trip_id=last_trip_id)
 
     except mysql.connector.Error as e:
         # Handle errors and render with an error message
@@ -354,8 +409,10 @@ def expense(trip_id):
 @app.route('/addexpense/<int:trip_id>', methods=['GET', 'POST'])
 @login_required
 def addexpense(trip_id):
+    user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
     if request.method == 'GET':
-        return render_template("expense_create.html")
+        return render_template("expense_create.html",last_trip_id=last_trip_id)
 
     if request.method == 'POST':
         user_id = session.get('user_id')  # Ensure the user is authenticated
@@ -410,9 +467,9 @@ def addexpense(trip_id):
 @app.route('/updateexpense/<int:expense_id>', methods=['GET', 'POST'])
 @login_required
 def update_expense(expense_id):
-    if request.method == 'GET':
-        
-        conn = get_db_connection()
+    user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
+    conn = get_db_connection()
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
 
@@ -427,7 +484,7 @@ def update_expense(expense_id):
             if not expense:
                 return jsonify({"error": "Expense not found"}), 404
 
-            return render_template('expense_edit.html', expense=expense)
+            return render_template('expense_edit.html', expense=expense,last_trip_id=last_trip_id)
         except mysql.connector.Error as e:
             return jsonify({"error": f"Database error: {e}"}), 500
         finally:
@@ -604,7 +661,9 @@ def logout():
 @app.route('/privacy')
 @login_required
 def privacy():
-    return render_template('privacy.html')
+    user_id = session.get('user_id')
+    last_trip_id = getLastTripId(user_id)
+    return render_template('privacy.html',last_trip_id=last_trip_id)
 
 @app.errorhandler(415)
 def unsupported_media_type(e):

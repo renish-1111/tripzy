@@ -10,59 +10,110 @@
 </head>
 
 <body class="bg-gray-100">
-   <!-- Navbar -->
-   <nav class="bg-blue-600">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Left Section: Logo -->
-            <div class="flex items-center">
-                <img src="/static/airplane.png" alt="Airplane Icon" class="h-8 mr-3">
-                <span class="text-white text-lg font-bold"><a href="/">Tripzy</a></span>
+    <!-- Navbar -->
+    <nav class="bg-blue-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Left Section: Logo -->
+                <div class="flex items-center">
+                    <img src="/static/airplane.png" alt="Airplane Icon" class="h-8 mr-3">
+                    <span class="text-white text-lg font-bold"><a href="/">Tripzy</a></span>
+                </div>
+                <!-- Right Section: Desktop Menu -->
+                <div class="hidden sm:flex space-x-6 items-center">
+                    <a href="/"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="#feature"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">About us</a>
+                    <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
+                    <a href="/privacy"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
+                        Policy</a>
+                    <!-- Desktop Dropdown Menu -->
+                    <div class="relative group">
+                        <button
+                            class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
+                            More
+                        </button>
+                        <div
+                            class="absolute hidden group-hover:block bg-white text-gray-700 rounded-md shadow-lg py-2 w-40">
+                            <a href="{{ url_for('create_trip') }}"
+                                class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Create New
+                                Trip</a>
+                            <a href="{{ url_for('trip_history') }}"
+                                class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Previous
+                                History</a>
+                            {% if last_trip_id %}
+                            <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}"
+                                class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Show Latest Trip
+                                Detail</a>
+                            <a href="{{ url_for('expense', trip_id=last_trip_id) }}"
+                                class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Show Latest
+                                Expense Chart</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('logout') }}"
+                        class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="sm:hidden flex items-center">
+                    <button id="mobile-menu-button"
+                        class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu Icon -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <!-- Right Section: Menu -->
-            <div class="hidden sm:flex space-x-6">
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="sm:hidden hidden">
+            <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
                 <a href="/"
-                    class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                <a href="/"
-                    class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
-                <a href="#"
-                    class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Privacy
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#feature"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">About
+                    us</a>
+                <a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
+                    Us</a>
+                <a href="/privacy"
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
                     Policy</a>
+                <!-- Mobile Dropdown -->
+                <div class="block">
+                    <button
+                        class="w-full text-left text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium focus:outline-none"
+                        onclick="toggleMobileDropdown()">
+                        More
+                    </button>
+                    <div id="mobile-dropdown" class="hidden bg-blue-800 text-white rounded-md shadow-lg py-2 mt-1">
+                        <a href="{{ url_for('create_trip') }}"
+                            class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Create New Trip</a>
+                        <a href="{{ url_for('trip_history') }}"
+                            class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Previous History</a>
+                        {% if last_trip_id %}
+                        <a href="{{ url_for('trip_details', trip_id=last_trip_id) }}"
+                            class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Show Latest Trip
+                            Detail</a>
+                        <a href="{{ url_for('expense', trip_id=last_trip_id) }}"
+                            class="block px-4 py-2 hover:bg-blue-600 hover:text-white rounded-md">Show Latest Expense
+                            Chart</a>
+                        {% endif %}
+                    </div>
+                </div>
                 <a href="{{ url_for('logout') }}"
-                    class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
-            </div>
-            <!-- Mobile Menu Button -->
-            <div class="sm:hidden flex items-center">
-                <button id="mobile-menu-button"
-                    class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
-                    <span class="sr-only">Open main menu</span>
-                    <!-- Menu Icon -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+                    class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log
+                    Out</a>
             </div>
         </div>
-    </div>
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="sm:hidden hidden">
-        <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
-            <a href="/"
-                class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Home</a>
-            <a href="/"
-                class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Contact
-                Us</a>
-            <a href="#"
-                class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Privacy
-                Policy</a>
-            <a href="{{ url_for('logout') }}"
-                class="block text-white hover:text-yellow-300 px-3 py-2 rounded-md text-base font-medium">Log
-                Out</a>
-        </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- Header -->
     <header class="bg-blue-500 text-white py-8">
@@ -144,10 +195,24 @@
     <footer class="bg-blue-600 text-white py-6 mt-6">
         <div class="container mx-auto text-center">
             <p>&copy; 2024 Tripzy. All Rights Reserved.</p>
-            <p><a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com" class="text-yellow-300 hover:underline">Contact Us</a> for more information.</p>
+            <p><a href="mailto:sanketsakariya2005@gmail.com,ponkiyarenish@gmail.com"
+                    class="text-yellow-300 hover:underline">Contact Us</a> for more information.</p>
 
         </div>
     </footer>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileDropdown = document.getElementById('mobile-dropdown');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function toggleMobileDropdown() {
+            mobileDropdown.classList.toggle('hidden');
+        }
+    </script>
     <script src="/static/script.js"></script>
 </body>
 

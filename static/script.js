@@ -1,16 +1,15 @@
 
 // navbar js function
-document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
+    const mobileDropdown = document.getElementById('mobile-dropdown');
     
-    menuButton.addEventListener('click', () => {
-        const isHidden = mobileMenu.classList.contains('hidden');
-        mobileMenu.classList.toggle('hidden', !isHidden);
-        menuButton.querySelector('svg').classList.toggle('hidden');
-    });
-});
+        mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden')
+        });
+
+    function toggleMobileDropdown() {
+        mobileDropdown.classList.toggle('hidden')
+        }
 
 
-
- 
