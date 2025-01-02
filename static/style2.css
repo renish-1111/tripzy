@@ -1,0 +1,68 @@
+        .dark-mode {
+            background-color: #000000;
+            color: #a0aec0;
+        }
+
+        .dark-mode .bg-white {
+            background-color: #2d3748;
+        }
+
+        .dark-mode .text-gray-600 {
+            color: #a0aec0;
+        }
+
+        .dark-mode .text-gray-700 {
+            color: #cbd5e0;
+        }
+
+        .dark-mode .text-gray-800 {
+            color: #e2e8f0;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: #3d4656;
+        }
+
+        .dark-mode .bg-blue-600 {
+            background-color: #102d4d;
+        }
+
+        .dark-mode .hover\:bg-blue-600:hover {
+            background-color: #2b6cb0;
+        }
+
+        .dark-mode .hover\:text-yellow-300:hover {
+            color: #ecc94b;
+        }
+
+        .dark-mode .border-gray-300 {
+            border-color: #4a5568;
+        }
+
+        .dark-mode .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode .to-green-600 {
+            background: linear-gradient(to right, #2f855a, #22543d);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .to-purple-600 {
+            background: linear-gradient(to right, #7e22ce, #581c87);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .to-red-600 {
+            background: linear-gradient(to right, #b91c1c, #7f1d1d);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .to-yellow-600 {
+            background: linear-gradient(to right, #a16207, #713f12);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }

@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tripzy</title>
     <link rel="icon" href="/static/airplane.png" type="image/icon type">
+    <link rel="stylesheet" href="/static/style2.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
 
 <body>
@@ -57,9 +59,25 @@
                     </div>
                     <a href="{{ url_for('logout') }}"
                         class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
+                        <button id="theme-toggle" class="dark-mode-toggle flex items-center justify-center text-white px-3 py-2 rounded-md focus:outline-none">
+                            <svg id="theme-toggle-light-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.364-9H21m-16 0H3m15.071 6.071l-.707-.707M6.636 7.636l-.707-.707M16.95 7.636l.707-.707M7.636 16.95l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"></path>
+                            </svg>
+                            <svg id="theme-toggle-dark-icon" class="h-6 w-6" fill="currentColor" stroke="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"></path>
+                            </svg>
+                        </button>
                 </div>
                 <!-- Mobile Menu Button -->
                 <div class="sm:hidden flex items-center">
+                    <button id="theme-toggle" class="dark-mode-toggle flex items-center justify-center text-white px-3 py-2 rounded-md focus:outline-none">
+                        <svg id="theme-toggle-light-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.364-9H21m-16 0H3m15.071 6.071l-.707-.707M6.636 7.636l-.707-.707M16.95 7.636l.707-.707M7.636 16.95l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"></path>
+                        </svg>
+                        <svg id="theme-toggle-dark-icon" class="h-6 w-6" fill="currentColor" stroke="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"></path>
+                        </svg>
+                    </button>
                     <button id="mobile-menu-button"
                         class="p-2 rounded-md text-white hover:text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
                         <span class="sr-only">Open main menu</span>
@@ -73,6 +91,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="sm:hidden hidden">
             <div class="px-4 pt-4 pb-4 space-y-2 bg-blue-700">
@@ -121,7 +140,7 @@
     <main class="container mx-auto mt-5">
 
         <!-- Discovery Section -->
-        <div class="flex flex-col items-center space-y-12 mt-10 p-6 bg-gray-50 rounded-lg">
+        <div class="flex flex-col items-center space-y-12 mt-10 p-6  rounded-lg">
             <!-- App Introduction Section -->
             <div class="text-center space-y-4">
                 <h2 class="text-4xl font-extrabold">Discover Tripzy</h2>
@@ -197,6 +216,18 @@
                             Show Latest Expense Chart
                         </button>
                     </a>
+                    <!-- <button id="dark-mode-toggle" class="w-64 bg-gradient-to-r from-orange-400 to-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                        Toggle Dark Mode
+                    </button> -->
+
+                    <!-- <button id="theme-toggle" class="dark-mode-toggle flex items-center justify-center text-white px-3 py-2 rounded-md focus:outline-none">
+                        <svg id="theme-toggle-light-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.364-9H21m-16 0H3m15.071 6.071l-.707-.707M6.636 7.636l-.707-.707M16.95 7.636l.707-.707M7.636 16.95l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"></path>
+                        </svg>
+                        <svg id="theme-toggle-dark-icon" class="h-6 w-6" fill="currentColor" stroke="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"></path>
+                        </svg>
+                    </button> -->
                     {% endif %}
                 </div>
             </div>
@@ -218,7 +249,7 @@
 
         <!-- Features and Details Section -->
         <section id="feature"
-            class="flex flex-col items-center mt-12 bg-gray-50 py-12 px-6 shadow-md rounded-lg space-y-8">
+            class="flex flex-col items-center mt-12  py-12 px-6 shadow-md rounded-lg space-y-8">
             <h3 class="text-4xl font-extrabold text-gray-800">About us</h3>
             <p class="text-lg text-gray-600 text-center max-w-4xl">
                 Tripzy is not just a trip management tool, it's your travel companion. From planning your journey to
@@ -397,7 +428,25 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script>
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+    
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeToggleLightIcon.classList.toggle('hidden');
+            themeToggleDarkIcon.classList.toggle('hidden');
+        });
+    </script>
 </body>
 
 </html>
