@@ -66,3 +66,31 @@
             color: #e2e8f0;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
         }
+
+        .dark-mode #bluegreenbtn {
+            background: linear-gradient(to right, #2f855a, #22543d);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+        .dark-mode .bg-gray-100 {
+            background: linear-gradient(to right, #254c80, #1d4633);
+            color: #e2e8f0;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode #rowtr{
+            background: #000;
+        }
+        .dark-mode .border-gray-900{
+            border-color: white;
+        }
+        .dark-mode input{
+            background: #000;
+        }
+        .dark-mode textarea{
+            background: #000;
+        }
+        .dark-mode select{
+            background: #000;
+        }
+
