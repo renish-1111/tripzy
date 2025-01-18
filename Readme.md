@@ -14,7 +14,7 @@ To install Tripzy, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/tripzy.git
+    git clone https://github.com/sanket-sakariya/tripzy.git
     ```
 2. Navigate to the project directory:
     ```bash
